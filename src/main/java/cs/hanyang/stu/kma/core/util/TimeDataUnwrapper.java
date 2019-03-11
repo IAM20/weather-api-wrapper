@@ -8,15 +8,23 @@ import cs.hanyang.stu.kma.core.model.space.ForecastSpaceItem;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static cs.hanyang.stu.kma.core.NewSky.*;
 import static cs.hanyang.stu.kma.core.NewSky.WIND_SPEED;
 
 public class TimeDataUnwrapper {
+	private static List<ForecastTimeData> sortTimeData(List<ForecastTimeData> data) {
+		Collections.sort(data, (left,  right) -> {
+			if (left.getForecastDate().equals(right.getForecastDate())) {
+				return left.getForecastTime().compareTo(right.getForecastTime());
+			} else {
+				return left.getForecastDate().compareTo(right.getForecastDate());
+			}
+		});
+		return data;
+	}
+
 	public static List<ForecastTimeData> unwrap(ForecastSpaceTimeWrapper timeData) {
 		Map<Pair<Integer, String>, ForecastTimeData> dataMap = new HashMap<>();
 		ForecastSpaceBody body = timeData.getResponse().getBody();
@@ -73,6 +81,6 @@ public class TimeDataUnwrapper {
 			}
 			dataMap.put(key, value);
 		}
-		return new ArrayList<>(dataMap.values());
+		return sortTimeData(new ArrayList<>(dataMap.values()));
 	}
 }

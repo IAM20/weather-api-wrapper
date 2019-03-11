@@ -1,21 +1,21 @@
 package cs.hanyang.stu.kma.core;
 
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+
 import cs.hanyang.stu.kma.core.api.ApiExecutor;
 import cs.hanyang.stu.kma.core.model.ForecastGribWrapper;
 import cs.hanyang.stu.kma.core.model.ForecastSpaceTimeWrapper;
+import cs.hanyang.stu.kma.core.util.DefaultOptionMaker;
 import cs.hanyang.stu.kma.core.util.GribUnwrapper;
 import cs.hanyang.stu.kma.core.util.SpaceDataUnwrapper;
 import cs.hanyang.stu.kma.core.util.TimeDataUnwrapper;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
 
 @Slf4j
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class NewSky {
 	public static final String TYPE_JSON = "json";
@@ -55,11 +55,23 @@ public class NewSky {
 	public static final Integer RAIN_SNOW = 3;
 	public static final Integer SNOW = 4;
 
+	public static final Integer THUNDER_NO = 0;
+	public static final Integer THUNDER_LOW = 1;
+	public static final Integer THUNDER_MID = 2;
+	public static final Integer THUNDER_HIGH = 3;
+
 	private static final String SKY_URL = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/";
+	private static final String DEFAULT_NX = "60";
+	private static final String DEFAULT_NY = "127";
+	private static final String DEFAULT_NUM_OF_ROWS = "1024";
+	private static final String DEFAULT_PAGE_NUM = "1";
 
 	public static final Integer OPERATION_ROW_SIZE = 14;
 
-	private String operation = OPERATION_SPACE_DATA;
+
+	private final String type;
+
+	private String operation;
 	private String serviceKey;
 	private String baseDate;
 	private String baseTime;
@@ -67,69 +79,71 @@ public class NewSky {
 	private String ny;
 	private String numOfRows;
 	private String pageNo;
-	private String type = TYPE_JSON;
 	private String baseDateTime;
 	private String fType;
 
-	public void setBaseDate(int baseDate) {
+	public NewSky() {
+		DefaultOptionMaker.initDefaultValues();
+		baseDate = DefaultOptionMaker.makeDefaultBaseDate();
+		baseTime = DefaultOptionMaker.makeDefaultBaseTime();
+		nx = DEFAULT_NX;
+		ny = DEFAULT_NY;
+		numOfRows = DEFAULT_NUM_OF_ROWS;
+		pageNo = DEFAULT_PAGE_NUM;
+		type = TYPE_JSON;
+		baseDateTime = baseDate + baseTime;
+		fType = F_TYPE_GRIB;
+	}
+
+	void setBaseDate(int baseDate) {
 		this.baseDate = Integer.toString(baseDate);
 	}
 
-	public void setBaseDate(String baseDate) {
+	void setBaseDate(String baseDate) {
 		this.baseDate = baseDate;
 	}
 
-	public void setBaseTime(int baseTime) {
+	void setBaseTime(int baseTime) {
 		this.baseTime = Integer.toString(baseTime);
 	}
 
-	public void setBaseTime(String baseTime) {
+	void setBaseTime(String baseTime) {
 		this.baseTime = baseTime;
 	}
 
-	public void setNx(int nx) {
+	void setNx(int nx) {
 		this.nx = Integer.toString(nx);
 	}
 
-	public void setNx(String nx) {
+	void setNx(String nx) {
 		this.nx = nx;
 	}
 
-	public void setNy(int ny) {
+	void setNy(int ny) {
 		this.ny = Integer.toString(ny);
 	}
 
-	public void setNy(String ny) {
+	void setNy(String ny) {
 		this.ny = ny;
 	}
 
-	public void setNumOfRows(int numOfRows) {
+	void setNumOfRows(int numOfRows) {
 		this.numOfRows = Integer.toString(numOfRows);
 	}
 
-	public void setNumOfRows(String numOfRows) {
+	void setNumOfRows(String numOfRows) {
 		this.numOfRows = numOfRows;
 	}
 
-	public void setPageNo(int pageNo) {
+	void setPageNo(int pageNo) {
 		this.pageNo = Integer.toString(pageNo);
 	}
 
-	public void setPageNo(String pageNo) {
+	void setPageNo(String pageNo) {
 		this.pageNo = pageNo;
 	}
 
-	public void setType(String type) {
-		if (type.equals(TYPE_JSON)) {
-			this.type = TYPE_JSON;
-		} else if (type.equals(TYPE_XML)) {
-			this.type = TYPE_XML;
-		} else {
-			this.type = TYPE_JSON;
-		}
-	}
-
-	public String makeUrl() {
+	private String makeUrl() {
 		return SKY_URL + operation + "?serviceKey=" + serviceKey + "&base_date=" + baseDate + "&base_time=" + baseTime
 				+ "&nx=" + nx + "&ny=" + ny + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&_type=" + type;
 	}

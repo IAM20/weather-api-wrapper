@@ -77,11 +77,6 @@ public class NewSkyBuilder {
 		return this;
 	}
 
-	public NewSkyBuilder setType(String type) {
-		newSky.setType(type);
-		return this;
-	}
-
 	public NewSky build() {
 		return newSky;
 	}

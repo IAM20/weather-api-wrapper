@@ -1,23 +1,30 @@
 package cs.hanyang.stu.kma.core.util;
 
+import java.util.*;
+
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
 import static cs.hanyang.stu.kma.core.NewSky.*;
-import static java.util.Collections.EMPTY_LIST;
 
 import cs.hanyang.stu.kma.core.ForecastSpaceData;
 import cs.hanyang.stu.kma.core.model.ForecastSpaceTimeWrapper;
 import cs.hanyang.stu.kma.core.model.space.ForecastSpaceBody;
 import cs.hanyang.stu.kma.core.model.space.ForecastSpaceHeader;
 import cs.hanyang.stu.kma.core.model.space.ForecastSpaceItem;
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 
 public class SpaceDataUnwrapper {
+	private static List<ForecastSpaceData> sortSpaceData(List<ForecastSpaceData> data) {
+		Collections.sort(data, (left, right) -> {
+			if (left.getForecastDate().equals(right.getForecastDate())) {
+				return left.getForecastTime().compareTo(right.getForecastTime());
+			} else {
+				return left.getForecastDate().compareTo(right.getForecastDate());
+			}
+		});
+		return data;
+	}
+
 	public static List<ForecastSpaceData> unwrap(ForecastSpaceTimeWrapper spaceData) {
 		Map<Pair<Integer, String>, ForecastSpaceData> dataMap = new HashMap<>();
 		ForecastSpaceHeader header = spaceData.getResponse().getHeader();
@@ -85,6 +92,6 @@ public class SpaceDataUnwrapper {
 			}
 			dataMap.put(key, value);
 		}
-		return new ArrayList<>(dataMap.values());
+		return sortSpaceData(new ArrayList<>(dataMap.values()));
 	}
 }
