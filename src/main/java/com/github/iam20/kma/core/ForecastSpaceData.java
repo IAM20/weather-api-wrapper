@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ForecastSpaceData {
-	private Integer forecastDate;
-	private String forecastTime;
+public class ForecastSpaceData extends SpaceTimeData {
 	private Double percentOfRain;
 	private Integer rainType;
 	private Double rainPerSixHour;

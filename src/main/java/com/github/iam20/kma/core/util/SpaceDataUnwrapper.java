@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.github.iam20.kma.core.ForecastSpaceData;
 import com.github.iam20.kma.core.NewSky;
+import com.github.iam20.kma.core.SpaceTimeData;
 import com.github.iam20.kma.core.model.ForecastSpaceTimeWrapper;
 import com.github.iam20.kma.core.model.space.ForecastSpaceBody;
 import com.github.iam20.kma.core.model.space.ForecastSpaceHeader;
@@ -12,17 +13,6 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class SpaceDataUnwrapper {
-	private static List<ForecastSpaceData> sortSpaceData(List<ForecastSpaceData> data) {
-		Collections.sort(data, (left, right) -> {
-			if (left.getForecastDate().equals(right.getForecastDate())) {
-				return left.getForecastTime().compareTo(right.getForecastTime());
-			} else {
-				return left.getForecastDate().compareTo(right.getForecastDate());
-			}
-		});
-		return data;
-	}
-
 	public static List<ForecastSpaceData> unwrap(ForecastSpaceTimeWrapper spaceData) {
 		Map<Pair<Integer, String>, ForecastSpaceData> dataMap = new HashMap<>();
 		ForecastSpaceHeader header = spaceData.getResponse().getHeader();
@@ -90,6 +80,9 @@ public class SpaceDataUnwrapper {
 			}
 			dataMap.put(key, value);
 		}
-		return sortSpaceData(new ArrayList<>(dataMap.values()));
+		List<? extends SpaceTimeData> list = new ArrayList<>(dataMap.values());
+
+		/* Below's cast always be executed */
+		return (List<ForecastSpaceData>) SpaceTimeDataSorter.sortSpaceTimeData(new ArrayList<>(list));
 	}
 }

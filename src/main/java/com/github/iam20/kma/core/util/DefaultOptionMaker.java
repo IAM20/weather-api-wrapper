@@ -14,7 +14,7 @@ public class DefaultOptionMaker {
 	private static Integer defaultBaseDate;
 	private static String hour;
 
-	public static void initDefaultValues() {
+	public static void updateDefaultValues() {
 		Date date = new Date();
 		String minute = minuteFormat.format(date);
 		hour = hourFormat.format(date);

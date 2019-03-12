@@ -83,7 +83,7 @@ public class NewSky {
 	private String fType;
 
 	public NewSky() {
-		DefaultOptionMaker.initDefaultValues();
+		DefaultOptionMaker.updateDefaultValues();
 		baseDate = DefaultOptionMaker.makeDefaultBaseDate();
 		baseTime = DefaultOptionMaker.makeDefaultBaseTime();
 		nx = DEFAULT_NX;
