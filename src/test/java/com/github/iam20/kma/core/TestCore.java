@@ -1,10 +1,10 @@
 package com.github.iam20.kma.core;
 
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.List;
 
 @Slf4j
 public class TestCore {

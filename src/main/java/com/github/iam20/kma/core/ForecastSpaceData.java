@@ -1,7 +1,5 @@
 package com.github.iam20.kma.core;
 
-// 14 data.
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
