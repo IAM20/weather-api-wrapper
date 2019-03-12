@@ -1,5 +1,6 @@
 package com.github.iam20.kma.core.api;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -7,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Slf4j
@@ -22,7 +24,18 @@ public class ApiExecutor {
 		HttpHeaders headers = new HttpHeaders();
 		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<T> responseHttpEntity = new HttpEntity<>(headers);
-
-		return restTemplate.exchange(uri, HttpMethod.GET, responseHttpEntity, type).getBody();
+		T result;
+		try {
+			result = restTemplate.exchange(uri, HttpMethod.GET, responseHttpEntity, type).getBody();
+		} catch (RestClientException e) {
+			log.info("The item is not exists check the time and x, y");
+			try {
+				result = type.getConstructor().newInstance();
+			} catch (NoSuchMethodException | IllegalAccessException
+					| InvocationTargetException | InstantiationException e1) {
+				result = null;
+			}
+		}
+		return result;
 	}
 }

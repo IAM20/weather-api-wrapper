@@ -1,12 +1,16 @@
 package com.github.iam20.kma.core.model.space;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Data;
+
 @Data
-@NoArgsConstructor
 public class ForecastSpaceItemWrapper {
 	List<ForecastSpaceItem> item;
+
+	public ForecastSpaceItemWrapper() {
+		item = new ArrayList<>();
+		item.add(new ForecastSpaceItem());
+	}
 }
