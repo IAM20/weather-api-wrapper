@@ -6,7 +6,7 @@
 
 	<groupId>com.github.iam20</groupId>
 	<artifactId>weather-api-wrapper</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<packaging>jar</packaging>
 
 	<name>weather api wrapper</name>

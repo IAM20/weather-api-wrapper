@@ -17,6 +17,7 @@ List<ForecastTimeData> timeData = sky.forecastTimeData();
 <p align=center>
 <a target="_blank"><img src="https://img.shields.io/badge/build-passing-green.svg"></a>
 <a target="_blank" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html" title="java version"><img src="https://img.shields.io/badge/java-11-green.svg"></a>
+<a target="_blank"><img src="https://img.shields.io/badge/version-0.0.2-green.svg"></a>
 </p>
 
 ------------
@@ -26,7 +27,7 @@ List<ForecastTimeData> timeData = sky.forecastTimeData();
     <dependency>
         <groupId>com.github.iam20</groupId>
         <artifactId>weather-api-wrapper</artifactId>
-        <version>0.0.1</version>
+        <version>0.0.2</version>
     </dependency>
 </dependencies>
 ```
